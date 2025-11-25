@@ -87,20 +87,26 @@ namespace MusicPlayerT
 
         private void timer_Tick_1(object sender, EventArgs e)
         {
-            if(choinhac.playState==WMPLib.WMPPlayState.wmppsPlaying)
+            if (choinhac.playState == WMPLib.WMPPlayState.wmppsPlaying)
             {
-                pBar.Maximum = (int)choinhac.currentMedia.duration;
-                pBar.Value = (int)choinhac.Ctlcontrols.currentPosition;
-            }
-            //pBar:
-            try
-            {
-                start.Text = choinhac.Ctlcontrols.currentPositionString.ToString();
-                end.Text = choinhac.currentMedia.durationString.ToString();
-            }
-            catch(Exception)
-            {
+                if (choinhac.currentMedia != null)
+                {
+                    double dur = choinhac.currentMedia.duration;
+                    double pos = choinhac.Ctlcontrols.currentPosition;
 
+                    if (dur > 0)
+                    {
+                        pBar.Maximum = (int)dur;
+                        pBar.Value = (int)pos;
+                    }
+                    start.Text = choinhac.Ctlcontrols.currentPositionString ?? "00:00";
+                    end.Text = choinhac.currentMedia.durationString ?? "00:00";
+                }
+            }
+            else
+            {
+                start.Text = "00:00";
+                end.Text = "00:00";
             }
         }
 
